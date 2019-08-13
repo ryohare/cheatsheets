@@ -54,6 +54,16 @@ enum4linux -a $TARGET
 rpcclient -U "" $TARGET
 ```
 
+# 111/2049 NFS
+```bash
+nmap -sV -p111,2049 --script=nfs-showmount 10.10.10.10
+nmap -p 111,2049 --script=nfs-ls 10.10.10.10
+nmap -p 111,2049 --script=nfs-statfs 10.10.10.10
+
+mkdir /tmp/mount
+mount -t nfs -o nolock 10.10.10.10:/nfs/path /tmp/mount
+```
+
 # 389 LDAP
 ```bash
 nmap -n -v -p 389 --script ldap-rootdse.nse -sV 10.11.1.201

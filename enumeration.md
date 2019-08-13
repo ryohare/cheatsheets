@@ -95,6 +95,16 @@ nmap -vv -sV -Pn -p 27900 --script=ms-sql-info,ms-sql-config,ms-sql-dump-hashes 
 
 ```
 
+## 8080/various Proxies (squid, etc)
+```bash
+#Connect to the proxy and scan whats available behind it:
+#htc -F <local-port> <address>:<proxy-port>
+htc -F 80 10.10.11.31:3128
+curl -vv http://127.0.0.1:80
+
+https://tools.kali.org/maintaining-access/httptunnel
+```
+
 ## 5900 VNC
 ```bash
 # vuln

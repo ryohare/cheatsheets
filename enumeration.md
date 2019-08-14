@@ -18,7 +18,7 @@ hydra -s 22 -v -l $USER -P /usr/share/wordlists/rockyou.txt -e nsr -t 4 $TARGET 
 ncrack -vv -p 22 --user $USER -P /usr/share/wordlists/rockyou.txt $TARGET
 ```
 
-# SMTP 25
+# 25 SMTP
 ```bash
 # find users
 smtp-user-enum -M VRFY -U /usr/share/seclists/Usernames/top_shortlist.txt -t 10.11.1.115 -p 25
@@ -31,7 +31,7 @@ dig.sh <ips.txt>
 for ip in $(cat ips.txt); do nslookup $ip <nameserver>; done
 ```
 
-# TFTP UDP 69
+# 69 UDP TFTP
 ```bash
 nmap -n -vvv -d -sU -p69 10.11.1.226 --script tftp-enum.nse --script-args tftp-enum.filelist=/usr/share/wordlists/metasploit/tftp.txt
 ```

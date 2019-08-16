@@ -147,6 +147,7 @@ proxychains nmap -sTVC -p- 10.10.11.31
 ```
 
 ## 5900 VNC
+VNC passwords are 8 >= characters long. Tailor dictionary to this
 ```bash
 # vuln
 nmap -n -v -p 5900 -sV -T4 -PN --script realvnc*,vnc-info*,vnc-title* $TARGET

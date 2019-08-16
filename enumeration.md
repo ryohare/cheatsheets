@@ -146,6 +146,15 @@ nmap -vv -sV -Pn -p 27900 --script=ms-sql-info,ms-sql-config,ms-sql-dump-hashes 
 
 ```
 
+## Various high ports Windows DCE
+```bash
+rpcdump.py
+
+/usr/share/spike/dcedump/ifids -p ncadg_ip_tcp -e 1025 10.10.10.10
+```
+
+https://l.wzm.me/_security/internet/_internet/WinServices/index.html
+
 ## 3128,8080/various Proxies (squid, etc)
 https://tools.kali.org/maintaining-access/httptunnel
 ```bash

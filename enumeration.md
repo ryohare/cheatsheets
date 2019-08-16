@@ -47,6 +47,24 @@ nmap -p88 --script=krb5-enum-users --script-args krb5-enum-users.realm="$DOMAIN.
 nmap -n -v -p 88 --script krb5-enum-users -sV 10.11.1.201 -d --script-args krb5-enum-users.realm='corp',userdb=cirt-default-usernames.txt
 ```
 
+# 111/2049 NFS/RSTAT/NIS
+```bash
+showmount -e 10.10.10.10
+nmap -sV -p111,2049 --script=nfs-showmount 10.10.10.10
+nmap -p 111,2049 --script=nfs-ls 10.10.10.10
+nmap -p 111,2049 --script=nfs-statfs 10.10.10.10
+
+rsysinfo 10.10.10.10
+
+apt-get install nis
+ypwhich -d example.org 10.10.10.10
+ypcat -d example.org -h 10.10.10.10 passwd.byname
+
+#mounting
+mkdir /tmp/mount
+mount -t nfs -o nolock 10.10.10.10:/nfs/path /tmp/mount
+```
+
 # 139/445 SMB
 ```bash
 nmap -n -v -p 135-139,445 -T4 -PN -sVC --script= --script-args=unsafe=1 $TARGET
@@ -61,15 +79,6 @@ rpcclient -U "" $TARGET
 hydra -l manager -P /usr/share/wordlists/rockyou.txt 10.11.1.202 smb
 ```
 
-# 111/2049 NFS
-```bash
-nmap -sV -p111,2049 --script=nfs-showmount 10.10.10.10
-nmap -p 111,2049 --script=nfs-ls 10.10.10.10
-nmap -p 111,2049 --script=nfs-statfs 10.10.10.10
-
-mkdir /tmp/mount
-mount -t nfs -o nolock 10.10.10.10:/nfs/path /tmp/mount
-```
 # 161 SNMP
 v1/2
 ```bash
@@ -114,6 +123,10 @@ gobuster -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://$TARG
 gobuster -w /usr/share/seclists/Discovery/Web-Content/RobotsDisallowed-Top1000.txt -u http://$TARGET:80/ -s '200,204,301,302,307,403,500' -e | tee '80_gobuster_toprobots.txt'
 gobuster -w /usr/share/seclists/Discovery/Web-Content/CGIs.txt -u http://$TARGET:80/ -s '200,204,301,307,403,500' -e  | tee '80_gobuster_cgis.txt'
 ```
+# 1038 ruserd
+```bash
+apt-get install rusers
+rusers -l 10.10.10.10
 
 ## 3389 RDP
 ```bash

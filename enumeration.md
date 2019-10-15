@@ -114,7 +114,7 @@ nmap -p 389 --script ldap-brute --script-args ldap.base='"cn=users,dc=cqure,dc=n
 # 80/443 - HTTP Servers
 ```bash
 nmap -n -v -p 80,443,8080 -T4 -PN -sVC --script http-vuln* --script-args=unsafe=1 $TARGET
-nikto -h http://$TARGET -p 80 -output 80_nikto.txt
+nikto -h http://$TARGET -output 80_nikto.txt
 whatweb -a 4 $target
 skipfish 
 curl -v -i $TARGET:80

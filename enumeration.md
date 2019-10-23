@@ -52,16 +52,16 @@ nmap -n -v -p 88 --script krb5-enum-users -sV 10.11.1.201 -d --script-args krb5-
 
 # 111/2049 NFS/RSTAT/NIS
 ```bash
-showmount -e 10.10.10.10
-nmap -sV -p111,2049 --script=nfs-showmount 10.10.10.10
-nmap -p 111,2049 --script=nfs-ls 10.10.10.10
-nmap -p 111,2049 --script=nfs-statfs 10.10.10.10
+showmount -e $TARGET
+nmap -sV -p111,2049 --script=nfs-showmount $TARGET
+nmap -p 111,2049 --script=nfs-ls $TARGET
+nmap -p 111,2049 --script=nfs-statfs $TARGET
 
-rsysinfo 10.10.10.10
+rsysinfo $TARGET
 
 apt-get install nis
-ypwhich -d example.org 10.10.10.10
-ypcat -d example.org -h 10.10.10.10 passwd.byname
+ypwhich -d example.org $TARGET
+ypcat -d example.org -h $TARGET passwd.byname
 
 #mounting
 mkdir /tmp/mount

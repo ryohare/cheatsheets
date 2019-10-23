@@ -87,13 +87,13 @@ hydra -l manager -P /usr/share/wordlists/rockyou.txt 10.11.1.202 smb
 # 161 SNMP
 v1/2
 ```bash
-snmpwalk -v 2c -c public 10.10.10.1
+snmpwalk -v 2c -c public $TARGET
 ```
 
 v3
 ```bash
 # enumerate usernames
-snmpv3enum.rb -i 10.0.0.5 -u usernames
+snmpv3enum.rb -i $TARGET -u usernames
 
 # brute
 hydra -U snmp

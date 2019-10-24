@@ -70,8 +70,8 @@ mount -t nfs -o nolock 10.10.10.10:/nfs/path /tmp/mount
 
 # 139/445 SMB
 ```bash
-nmap -n -v -p 135-139,445 -T4 -PN -sVC --script= --script-args=unsafe=1 $TARGET
-nmap -n -v -p 135-139,445 -T4 -PN -sVC --script --script-args=unsafe=1 $TARGET
+nmap -n -v -p 135-139,445 -T4 -PN -sVC --script-args=unsafe=1 $TARGET
+nmap -n -v -p 135-139,445 -T4 -PN -sVC --script=smb* --script-args=unsafe=1 $TARGET
 nmblookup -A $TARGET
 smbclient //MOUNT/share -I $TARGET N
 smbclient -L //$TARGET

@@ -42,6 +42,50 @@ for ip in $(cat ips.txt); do nslookup $ip <nameserver>; done
 ```bash
 nmap -n -vvv -d -sU -p69 10.11.1.226 --script tftp-enum.nse --script-args tftp-enum.filelist=/usr/share/wordlists/metasploit/tftp.txt
 ```
+# 80/443 - HTTP Servers
+```bash
+nmap -n -v -p 80,443,8080 -T4 -PN -sVC --script http-vuln* --script-args=unsafe=1 $TARGET
+nikto -h http://$TARGET -output 80_nikto.txt
+whatweb -a 4 $target
+skipfish 
+curl -v -i $TARGET:80
+w3m -dump $TARGET/robots.txt | tee 80_robots.txt
+VHostScan -t $TARGET -oN 80_vhosts.txt
+
+# waf detection
+wafw00f $target
+nmap -p80 --script http-waf-fingerprint $target
+
+# webdav
+davtest -url $target
+curl -vv -X PUT http://192.168.32.46/october --data-binary '@wb.php'
+
+# Web Server
+clusterd -a $target
+nmap -p80 --script=ajp-* $target
+jboss-win $target $port
+jboss-linux $target $port
+
+
+# cms
+BlindElephant.py $target [guess|specific_app_name]
+wafp
+wpscan --url http://192.168.32.46/blog --enumerate ap,at -t 16
+droopescan scan drupal -u http://10.10.10.9 -t 32
+joomscan -u http://localhost/
+namp -p 80 --script http-drupal-enum $target
+```
+
+## 80/443 - HTTP (Discovery)
+```bash
+
+# direnum
+dirb http://$TARGET:80/ -o 80_dirb.txt
+dirbuster -H -u http://$TARGET:80/ -l /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -t 20 -s / -v -r 80_dirbuster_medium.txt
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -u http://$TARGET:80/ -s '200,204,301,302,307,403,500' -e | tee '80_gobuster_common.txt'
+gobuster dir -w /usr/share/seclists/Discovery/Web-Content/RobotsDisallowed-Top1000.txt -u http://$TARGET:80/ -s '200,204,301,302,307,403,500' -e | tee '80_gobuster_toprobots.txt'
+gobuster dir -w /usr/share/seclists/Discovery/Web-Content/CGIs.txt -u http://$TARGET:80/ -s '200,204,301,307,403,500' -e  | tee '80_gobuster_cgis.txt'
+```
 
 # 88 Kerberos
 ```bash
@@ -70,7 +114,7 @@ mount -t nfs -o nolock 10.10.10.10:/nfs/path /tmp/mount
 
 # 139/445 SMB
 ```bash
-nmap -n -v -p 135-139,445 -T4 -PN -sVC --script default,exploit,intrusive,version,vuln --script-args=unsafe=1 $TARGET
+nmap -n -v -p 135-139,445 -T4 -PN -sVC --script default,exploit,version,vuln --script-args=unsafe=1 $TARGET
 nmap -n -v -p 135-139,445 -T4 -PN -sVC --script=smb-vuln* --script-args=unsafe=1 $TARGET
 nmblookup -A $TARGET
 smbclient //MOUNT/share -I $TARGET N
@@ -117,50 +161,6 @@ ldapsearch -D "cn=admin" -w secret123 -p 389 -h 10.10.10.10 -s base -b "ou=peopl
 nmap -p 389 --script ldap-brute --script-args ldap.base='"cn=users,dc=cqure,dc=net"' <host>
 ```
 
-# 80/443 - HTTP Servers
-```bash
-nmap -n -v -p 80,443,8080 -T4 -PN -sVC --script http-vuln* --script-args=unsafe=1 $TARGET
-nikto -h http://$TARGET -output 80_nikto.txt
-whatweb -a 4 $target
-skipfish 
-curl -v -i $TARGET:80
-w3m -dump $TARGET/robots.txt | tee 80_robots.txt
-VHostScan -t $TARGET -oN 80_vhosts.txt
-
-# waf detection
-wafw00f $target
-nmap -p80 --script http-waf-fingerprint $target
-
-# webdav
-davtest -url $target
-curl -vv -X PUT http://192.168.32.46/october --data-binary '@wb.php'
-
-# Web Server
-clusterd -a $target
-nmap -p80 --script=ajp-* $target
-jboss-win $target $port
-jboss-linux $target $port
-
-
-# cms
-BlindElephant.py $target [guess|specific_app_name]
-wafp
-wpscan --url http://192.168.32.46/blog --enumerate ap,at -t 16
-droopescan scan drupal -u http://10.10.10.9 -t 32
-joomscan -u http://localhost/
-namp -p 80 --script http-drupal-enum $target
-```
-
-## 80/443 - HTTP (Discovery)
-```bash
-
-# direnum
-dirb http://$TARGET:80/ -o 80_dirb.txt
-dirbuster -H -u http://$TARGET:80/ -l /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -t 20 -s / -v -r 80_dirbuster_medium.txt
-gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -u http://$TARGET:80/ -s '200,204,301,302,307,403,500' -e | tee '80_gobuster_common.txt'
-gobuster dir -w /usr/share/seclists/Discovery/Web-Content/RobotsDisallowed-Top1000.txt -u http://$TARGET:80/ -s '200,204,301,302,307,403,500' -e | tee '80_gobuster_toprobots.txt'
-gobuster dir -w /usr/share/seclists/Discovery/Web-Content/CGIs.txt -u http://$TARGET:80/ -s '200,204,301,307,403,500' -e  | tee '80_gobuster_cgis.txt'
-```
 ## 443 - HTTPS Only
 ```bash
 # inspect certificate

@@ -80,6 +80,9 @@ rpcclient -U "" $TARGET
 rcpcliebt>enumdomusers
 rpcdump.py $TARGET
 
+# Getting the smb version when other methods fail (or port 139 is only available)
+ngrep -i -d tap0 's.?a.?m.?b.?a.*[[:digit:]]' port 139
+
 # brute
 hydra -l manager -P /usr/share/wordlists/rockyou.txt 10.11.1.202 smb
 ```

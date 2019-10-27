@@ -40,7 +40,7 @@ for ip in $(cat ips.txt); do nslookup $ip <nameserver>; done
 
 # 69 UDP TFTP
 ```bash
-nmap -n -vvv -d -sU -p69 10.11.1.226 --script tftp-enum.nse --script-args tftp-enum.filelist=/usr/share/wordlists/metasploit/tftp.txt
+nmap -n -vvv -d -sU -p69 $TARGET --script tftp-enum.nse --script-args tftp-enum.filelist=/usr/share/wordlists/metasploit/tftp.txt
 ```
 # 80/443 - HTTP Servers
 ```bash
@@ -53,27 +53,27 @@ w3m -dump $TARGET/robots.txt | tee 80_robots.txt
 VHostScan -t $TARGET -oN 80_vhosts.txt
 
 # waf detection
-wafw00f $target
-nmap -p80 --script http-waf-fingerprint $target
+wafw00f $TARGET
+nmap -p80 --script http-waf-fingerprint $TARGET
 
 # webdav
-davtest -url $target
-curl -vv -X PUT http://192.168.32.46/october --data-binary '@wb.php'
+davtest -url $TARGET
+curl -vv -X PUT http://$TARGET/october --data-binary '@wb.php'
 
 # Web Server
-clusterd -a $target
-nmap -p80 --script=ajp-* $target
-jboss-win $target $port
-jboss-linux $target $port
+clusterd -a $TARGET
+nmap -p80 --script=ajp-* $TARGET
+jboss-win $TARGET $PORT
+jboss-linux $TARGET $PORT
 
 
 # cms
-BlindElephant.py $target [guess|specific_app_name]
+BlindElephant.py $TARGET [guess|specific_app_name]
 wafp
-wpscan --url http://192.168.32.46/blog --enumerate ap,at -t 16
-droopescan scan drupal -u http://10.10.10.9 -t 32
-joomscan -u http://localhost/
-namp -p 80 --script http-drupal-enum $target
+wpscan --url http://$TARGET/blog --enumerate ap,at -t 16
+droopescan scan drupal -u http://$TARGET -t 32
+joomscan -u http://$TARGET/
+namp -p 80 --script http-drupal-enum $TARGET
 ```
 
 ## 80/443 - HTTP (Discovery)

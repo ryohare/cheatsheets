@@ -74,6 +74,9 @@ wpscan --url http://$TARGET/blog --enumerate ap,at -t 16
 droopescan scan drupal -u http://$TARGET -t 32
 joomscan -u http://$TARGET/
 namp -p 80 --script http-drupal-enum $TARGET
+
+# brute force username/passwords
+wpscan --url http://$TARGET -P /usr/share/wordlists/rockyou.txt -U admin
 ```
 
 ## 80/443 - HTTP (Discovery)

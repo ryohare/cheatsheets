@@ -131,7 +131,7 @@ rpcdump.py $TARGET
 ngrep -i -d tap0 's.?a.?m.?b.?a.*[[:digit:]]' port 139
 
 # brute
-hydra -l manager -P /usr/share/wordlists/rockyou.txt 10.11.1.202 smb
+hydra -l manager -P /usr/share/wordlists/rockyou.txt $TARGET smb
 
 # helpful resource
 https://0xdf.gitlab.io/2018/12/02/pwk-notes-smb-enumeration-checklist-update1.html

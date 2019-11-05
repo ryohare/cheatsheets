@@ -15,3 +15,9 @@ With admin access, generate a php/reverse_php with `msfvenom` then need to prefi
 * Author URI: http://www.sevenlayers.com
 */
 ```
+
+### Upgrade shells
+```python
+python -c 'import pty;pty.spawn("/bin/bash")'
+export TERM=linux
+```

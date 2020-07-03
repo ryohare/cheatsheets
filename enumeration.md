@@ -1,5 +1,10 @@
-# Source
+# Sources
 https://guif.re/networkpentest
+All commands are to be run against:
+* export TARGET=<IP>
+* export PORT=<PORT>
+* export URL=http://$TARGET:$PORT
+* export URLS=https://$TARGET:$PORT
 # 21 FTP
 ```bash
 nmap -sV -Pn -vv -p21 --script=ftp-anon,ftp-bounce,ftp-libopie,ftp-proftpd-backdoor,ftp-syst,ftp-vsftpd-backdoor,ftp-vuln-cve2010-4221 $TARGET
@@ -42,7 +47,7 @@ for ip in $(cat ips.txt); do nslookup $ip <nameserver>; done
 ```bash
 nmap -n -vvv -d -sU -p69 $TARGET --script tftp-enum.nse --script-args tftp-enum.filelist=/usr/share/wordlists/metasploit/tftp.txt
 ```
-# 80/443 - HTTP Servers
+# 80/443 - HTTP Server Information
 ```bash
 nmap -n -v -p 80,443,8080 -T4 -PN -sVC --script http-vuln* --script-args=unsafe=1 $TARGET
 nikto -h http://$TARGET -output 80_nikto.txt
@@ -79,16 +84,23 @@ namp -p 80 --script http-drupal-enum $TARGET
 wpscan --url http://$TARGET -P /usr/share/wordlists/rockyou.txt -U admin
 ```
 
-## 80/443 - HTTP (Discovery)
+## 80/443 - HTTP Discovery
+[ffuz process](./fuzzing.md)
 ```bash
 
 # direnum
-dirb http://$TARGET:80/ -o 80_dirb.txt
-dirbuster -H -u http://$TARGET:80/ -l /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -t 20 -s / -v -r 80_dirbuster_medium.txt
-gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -u http://$TARGET:80/ -s '200,204,301,302,307,403,500' -e | tee '80_gobuster_common.txt'
-gobuster dir -w /usr/share/seclists/Discovery/Web-Content/RobotsDisallowed-Top1000.txt -u http://$TARGET:80/ -s '200,204,301,302,307,403,500' -e | tee '80_gobuster_toprobots.txt'
-gobuster dir -w /usr/share/seclists/Discovery/Web-Content/CGIs.txt -u http://$TARGET:80/ -s '200,204,301,307,403,500' -e  | tee '80_gobuster_cgis.txt'
+dirb http://$TARGET:$PORT/ -o $PORT_dirb.txt
+dirbuster -H -u http://$TARGET:$PORT/ -l /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -t 20 -s / -v -r $PORT_dirbuster_medium.txt
+gobuster dir -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -u http://$TARGET:$PORT/ -s '200,204,301,302,307,403,500' -e | tee "$PORT_gobuster_common.txt"
+gobuster dir -w /usr/share/seclists/Discovery/Web-Content/RobotsDisallowed-Top1000.txt -u http://$TARGET:$PORT/ -s '200,204,301,302,307,403,500' -e | tee "$PORT_gobuster_toprobots.txt"
+gobuster dir -w /usr/share/seclists/Discovery/Web-Content/CGIs.txt -u http://$TARGET:$PORT/ -s '200,204,301,307,403,500' -e  | tee "$PORT_gobuster_cgis.txt"
+
+# Fuzz JSON
+```bash
+ffuf -w fuzzdb/attack/sql-injection/detect/xplatform.txt -X POST -H 
+<HEADERS> -d '{"email":"FUZZ","password":"ndnd"}' -u http://$TARGET:$PORT/rest/user/login -v -fc 401
 ```
+[ffuz process](./fuzzing.md)
 
 # 88 Kerberos
 ```bash

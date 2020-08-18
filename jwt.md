@@ -22,7 +22,7 @@
 # Wordlist
 hashcat -a0 -m 16500 text.hash [dict]
 
-# 
+# Example with wordlist
 hashcat -a0 -m 16500 hash2.txt wordlist.txt -r /usr/local/Cellar/hashcat/5.1.0/share/doc/hashcat/rules/best64.rule
 
 # Brute force

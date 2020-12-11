@@ -223,7 +223,7 @@ rpcdump.py
 
 https://l.wzm.me/_security/internet/_internet/WinServices/index.html
 
-## 3128,8080/various Proxies (squid, etc)
+## 3128,8080/various Proxies and SOCKS servers (squid, etc)
 https://tools.kali.org/maintaining-access/httptunnel
 ```bash
 #Connect to the proxy and scan whats available behind it:
@@ -234,6 +234,10 @@ curl -vv http://127.0.0.1:80
 # scan (or run any command over the proxy chains) through the proxy with proxychains
 htc -F 9050 10.10.11.31:3128
 proxychains nmap -sTVC -p- 10.10.11.31
+
+# update proxychains configuration with out using htc
+echo "socks5 10.10.11.31:3128 1080" >> /etc/proxychains.conf
+proxychains nmap -sTVC -p- localhost
 ```
 
 ## 5900 VNC

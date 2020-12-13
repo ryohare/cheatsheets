@@ -159,6 +159,9 @@ atexec.py $target $cmd
 wmiexec.py $target $cmd
 ```
 
+## Redis
+https://book.hacktricks.xyz/pentesting/6379-pentesting-redis
+
 ## Cheat Sheets
 Mother Script
 

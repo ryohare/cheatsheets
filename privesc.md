@@ -202,6 +202,12 @@ Upgrade shells
 python -c 'import pty;pty.spawn("/bin/bash")'
 export TERM=linux
 ```
+
+Without Python
+```bash
+/usr/bin/script -qc /bin/bash /dev/null
+```
+
 https://netsec.ws/?p=337
 
 Check all files for ones that may be interesting (like authorized_keys)

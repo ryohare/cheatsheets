@@ -1,4 +1,5 @@
-# Dev 522 Notes
+# Web Defender Notes
+Notes for anyone doing product security against websites.
 ## Web Basics
 ### HTTP Request
 ```

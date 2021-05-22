@@ -1,3 +1,25 @@
+# Enumeration
+- [Sources](#sources)
+- [21 FTP](#21-ftp)
+- [22 - SSH](#22---ssh)
+- [25 SMTP](#25-smtp)
+- [53 DNS Lookup Range](#53-dns-lookup-range)
+- [69 UDP TFTP](#69-udp-tftp)
+- [80/443 - HTTP Server Information](#80443---http-server-information)
+  * [80/443 - HTTP Discovery](#80443---http-discovery)
+- [88 Kerberos](#88-kerberos)
+- [111/2049 NFS/RSTAT/NIS](#1112049-nfsrstatnis)
+- [139/445 SMB](#139445-smb)
+- [161 SNMP](#161-snmp)
+- [389 LDAP](#389-ldap)
+  * [443 - HTTPS Only](#443---https-only)
+- [1038 ruserd](#1038-ruserd)
+  * [3389 RDP](#3389-rdp)
+  * [1433/27900 MSSQL](#143327900-mssql)
+  * [Various high ports Windows DCE](#various-high-ports-windows-dce)
+  * [3128,8080/various Proxies and SOCKS servers (squid, etc)](#31288080various-proxies-and-socks-servers-squid-etc)
+  * [5900 VNC](#5900-vnc)
+  * [SVN/GIT Repos](#svngit-repos)%
 # Sources
 https://guif.re/networkpentest
 All commands are to be run against:

@@ -1,5 +1,13 @@
 # Defending Web Applications Checklist
 Source material from [here](https://www.sans.org/sites/default/files/2018-01/STH-poster-winter-2013.pdf)
+- [Defending Web Applications Checklist](#defending-web-applications-checklist)
+  * [Error Handling and Logging](#error-handling-and-logging)
+  * [Data Protection](#data-protection)
+  * [Authentication](#authentication)
+  * [Input and Output Handling](#input-and-output-handling)
+  * [Configuration and Operations](#configuration-and-operations)
+  * [Session Management](#session-management)
+  * [Access Control](#access-control)
 ## Error Handling and Logging
 - [ ] Display generic error messages
 - [ ] No unhandled exceptions
